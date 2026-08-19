@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIAM-AI Data Report — Agriculture & Déforestation au Gabon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A2472; --card:#0F3480; --card2:#123C94;
+  --line:rgba(255,255,255,0.16); --line2:rgba(255,255,255,0.08);
+  --emerald:#10B981; --gold:#F59E0B; --sapphire:#3B82F6; --rose:#F43F5E; --violet:#8B5CF6;
+  --t1:#F0F6FF; --t2:#a8b6cc;
+  --serif:'Instrument Serif',Georgia,serif; --sans:'Outfit',sans-serif; --mono:'JetBrains Mono',monospace;
+  --radius:12px; --radius-lg:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:radial-gradient(1200px 800px at 15% -10%,#1D5FE0 0%,transparent 55%),
+             radial-gradient(900px 700px at 110% 10%,#1146B5 0%,transparent 50%),var(--ink);
+  color:var(--t1);font-family:var(--sans);font-size:18px;line-height:1.7;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px}
+header.article-hero{padding:60px 0 40px;border-bottom:1px solid var(--line)}
+.report-tag{
+  font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.15em;
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.report-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.badge{font-family:var(--mono);font-size:11.5px;padding:5px 12px;border-radius:50px;border:1px solid;text-transform:uppercase}
+.badge.b1{color:var(--emerald);border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.08)}
+.badge.b2{color:var(--gold);border-color:rgba(245,158,11,0.35);background:rgba(245,158,11,0.08)}
+.badge.b3{color:var(--sapphire);border-color:rgba(59,130,246,0.35);background:rgba(59,130,246,0.08)}
+h1.article-title{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(28px,4.5vw,44px);line-height:1.15;margin-bottom:10px}
+.article-question{
+  font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold);
+  margin:18px 0;padding:16px 20px;background:rgba(245,158,11,0.08);
+  border-left:3px solid var(--gold);border-radius:8px;
+}
+.article-subtitle{font-size:18px;color:var(--t2);max-width:700px;margin-bottom:24px}
+.article-meta{display:flex;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:13px;color:var(--t2)}
+.quicknav{display:flex;gap:10px;flex-wrap:wrap;padding:22px 0;border-bottom:1px solid var(--line);margin-bottom:40px}
+.quicknav a{font-family:var(--mono);font-size:12.5px;color:var(--t2);text-decoration:none;padding:6px 13px;border:1px solid var(--line);border-radius:50px}
+.quicknav a:hover{color:var(--emerald);border-color:rgba(16,185,129,0.4)}
+section.art-section{margin-bottom:56px}
+.section-label{font-family:var(--mono);font-size:12.5px;color:var(--emerald);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:22px;height:1px;background:var(--emerald)}
+h2.section-title{font-family:var(--serif);font-style:italic;font-size:30px;font-weight:400;margin-bottom:18px}
+h3.sub-title{font-weight:700;font-size:18.5px;margin:24px 0 10px}
+.art-section p{color:var(--t2);margin-bottom:16px}
+.art-section ul,.art-section ol{color:var(--t2);margin:0 0 16px 22px}
+.art-section strong{color:var(--t1)}
+.figure{margin:26px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.figure iframe{width:100%;height:520px;border:none;background:#fff}
+.figure-caption{padding:13px 20px;font-family:var(--mono);font-size:13px;color:var(--t2);border-top:1px solid var(--line)}
+.figure-caption strong{color:var(--emerald)}
+.data-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px}
+.data-table th{background:var(--card);padding:10px 14px;text-align:left;color:var(--emerald);font-family:var(--mono);font-size:11.5px;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.data-table td{padding:10px 14px;color:var(--t2);border-bottom:1px solid var(--line2)}
+.data-table a{color:var(--sapphire);text-decoration:none}
+.caution-box{background:rgba(244,63,94,0.08);border-left:3px solid var(--rose);border-radius:8px;padding:16px 20px;margin:20px 0}
+.caution-box .lbl{font-family:var(--mono);font-size:11.5px;color:var(--rose);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block}
+.caution-box p{color:var(--t1);margin-bottom:0;font-size:15px}
+.insight-box{background:rgba(16,185,129,0.1);border-left:3px solid var(--emerald);border-radius:8px;padding:16px 20px;margin:20px 0}
+.insight-box .lbl{font-family:var(--mono);font-size:11.5px;color:var(--emerald);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block}
+.insight-box p{color:var(--t1);margin-bottom:0;font-size:15px}
+.central-question{
+  text-align:center;padding:44px 30px;margin:50px 0;
+  background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(59,130,246,0.08));
+  border:1.5px solid rgba(16,185,129,0.25);border-radius:var(--radius-lg);
+}
+.central-question .emoji{font-size:38px;margin-bottom:14px}
+.central-question h2{font-family:var(--serif);font-style:italic;font-size:28px;color:var(--t1);max-width:600px;margin:0 auto 14px}
+.central-question p{color:var(--t2);max-width:560px;margin:0 auto}
+.matrix-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.matrix-cell{border-radius:10px;padding:20px;font-size:14.5px}
+.matrix-cell.green{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3)}
+.matrix-cell.orange{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3)}
+.matrix-cell.red{background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.3)}
+.matrix-cell.gray{background:rgba(255,255,255,0.05);border:1px solid var(--line)}
+.matrix-cell strong{display:block;margin-bottom:6px;color:var(--t1)}
+.reco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:24px 0}
+.reco-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;border-top:3px solid var(--gold)}
+.reco-num{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--gold);margin-bottom:8px}
+.reco-card h4{font-size:16px;margin-bottom:8px}
+.reco-card p{color:var(--t2);font-size:14px;margin-bottom:0}
+.tool-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.tool-chip{font-family:var(--mono);font-size:12.5px;background:var(--card2);color:var(--t1);padding:5px 12px;border-radius:6px;border:1px solid var(--line)}
+footer.article-footer{border-top:1px solid var(--line);padding:40px 0 60px;text-align:center;color:var(--t2);font-size:14px}
+footer .diam-logo{font-family:var(--serif);font-style:italic;color:var(--t1);font-size:20px;margin-bottom:8px}
+@media(max-width:640px){
+  body{font-size:16px} .wrap{padding:0 18px} h1.article-title{font-size:26px}
+  h2.section-title{font-size:23px} .matrix-grid{grid-template-columns:1fr} .figure iframe{height:380px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="article-hero">
+    <div class="report-tag">📊 DIAM-AI Data Report</div>
+    <div class="badges">
+      <span class="badge b1">🌍 Gabon</span>
+      <span class="badge b2">🛰️ Télédétection</span>
+      <span class="badge b3">📈 FAOSTAT + Earth Engine</span>
+    </div>
+    <h1 class="article-title">Agriculture &amp; Déforestation au Gabon</h1>
+    <p class="article-subtitle" style="font-size:20px;color:var(--t1);font-style:italic;font-family:var(--serif)">Que révèlent les données satellites ?</p>
+
+    <div class="article-question">🌳 Agriculture ou déforestation : faut-il vraiment opposer les deux ?</div>
+
+    <p class="article-subtitle">Ce rapport croise données statistiques officielles (FAOSTAT) et observation
+    satellite (ESA WorldCover, Hansen Global Forest Change) pour examiner, données à l'appui, si le
+    développement agricole du Gabon peut se faire sans accroître la pression sur la forêt. Toutes les figures
+    ci-dessous sont interactives.</p>
+
+    <div class="article-meta">
+      <span>📅 DIAM-AI — Data &amp; Intelligence Artificielle</span>
+      <span>🏷️ Agriculture · Environnement · Analyse territoriale</span>
+    </div>
+  </header>
+
+  <nav class="quicknav">
+    <a href="#production">01 · Que produit le Gabon ?</a>
+    <a href="#satellite">02 · Vue satellite</a>
+    <a href="#foret">03 · Couverture forestière</a>
+    <a href="#provinces">04 · Où se concentre la perte</a>
+    <a href="#matrice">05 · Agriculture × Forêt</a>
+    <a href="#recommandations">Recommandations</a>
+    <a href="#limites">Limites</a>
+    <a href="#sources">Sources</a>
+  </nav>
+
+  <!-- ═══ 01 — PRODUCTION AGRICOLE ═══ -->
+  <section class="art-section" id="production">
+    <div class="section-label">01 · Que produit réellement le Gabon ?</div>
+    <h2 class="section-title">Production, surface et rendement (FAOSTAT)</h2>
+    <p>L'analyse porte sur les principales cultures gabonaises : manioc, banane, banane plantain, maïs, cacao,
+    hévéa et palmier à huile. Chaque graphique est interactif : survolez les courbes pour afficher les valeurs
+    précises.</p>
+
+    <div class="figure">
+      <iframe src="fig1_production.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 1</strong> — Production des principales cultures, Gabon (FAOSTAT).</div>
+    </div>
+    <div class="figure">
+      <iframe src="fig2_rendement.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 2</strong> — Rendement des principales cultures, Gabon (FAOSTAT).</div>
+    </div>
+    <div class="figure">
+      <iframe src="fig3_surface.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 3</strong> — Surface récoltée par culture, Gabon (FAOSTAT).</div>
+    </div>
+
+    <h3 class="sub-title">La question centrale : surface ou rendement ?</h3>
+    <p>Pour chaque culture, la production peut croître par extension des surfaces (pression potentielle sur la
+    forêt) ou par amélioration du rendement à surface constante (intensification).</p>
+
+    <div class="figure">
+      <iframe src="fig4_decomposition.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 4</strong> — Décomposition de la croissance : surface vs rendement.</div>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Culture</th><th>Croissance production</th><th>Croissance surface</th><th>Croissance rendement</th><th>Moteur principal</th></tr></thead>
+      <tbody id="table-decomposition">
+        <tr><td colspan="5" style="text-align:center;color:var(--t2)">[Tableau généré depuis decomposition_production.csv]</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══ 02 — VUE SATELLITE ═══ -->
+  <section class="art-section" id="satellite">
+    <div class="section-label">02 · Que voit réellement le satellite ?</div>
+    <h2 class="section-title">Occupation des sols (ESA WorldCover, 10m)</h2>
+    <p>ESA WorldCover fournit une cartographie mondiale de l'occupation des sols à 10 mètres de résolution
+    (précision globale ≈ 76,7%, version 2021). Onze classes sont distinguées, dont la forêt, les terres
+    cultivées, les zones humides et les zones bâties.</p>
+
+    <div class="figure">
+      <iframe src="fig5_occupation_sols.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 5</strong> — Occupation des sols au Gabon, ESA WorldCover 2021.</div>
+    </div>
+    <div class="figure">
+      <iframe src="fig6_occupation_repartition.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 6</strong> — Répartition de l'occupation des sols par classe.</div>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>Classe</th><th>Surface (km²)</th><th>Part du territoire</th></tr></thead>
+      <tbody id="table-occupation">
+        <tr><td colspan="3" style="text-align:center;color:var(--t2)">[Tableau généré depuis occupation_sols_gabon.csv]</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══ 03 — COUVERTURE FORESTIÈRE ═══ -->
+  <section class="art-section" id="foret">
+    <div class="section-label">03 · Évolution de la couverture forestière</div>
+    <h2 class="section-title">Perte de couverture arborée (2001-2023)</h2>
+    <p>L'analyse s'appuie sur Hansen Global Forest Change (résolution ~30m), qui recense annuellement la perte
+    de couverture arborée à l'échelle mondiale depuis 2001.</p>
+
+    <div class="figure">
+      <iframe src="fig7_perte_annuelle.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 7</strong> — Perte annuelle de couverture arborée (2001-2023).</div>
+    </div>
+
+    <div class="caution-box">
+      <span class="lbl">Précaution méthodologique</span>
+      <p>Les changements méthodologiques affectant la détection Hansen imposent une prudence particulière dans
+      les comparaisons avant/après 2015 — les deux périodes ne doivent pas être comparées directement en
+      valeur absolue.</p>
+    </div>
+
+    <h3 class="sub-title">Facteurs de perte forestière</h3>
+    <p>Le jeu de données sur les facteurs de perte de couverture arborée (WRI / Google DeepMind, résolution
+    ~1km) permet de distinguer sept causes : agriculture permanente, agriculture itinérante, exploitation
+    forestière, exploitation minière, infrastructures, incendies et perturbations naturelles.</p>
+
+    <div class="figure">
+      <iframe src="fig8_facteurs_perte.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 8</strong> — Facteurs de perte de couverture arborée.</div>
+    </div>
+
+    <div class="insight-box">
+      <span class="lbl">Ce que permet cette donnée</span>
+      <p>Distinguer la part réelle de l'agriculture dans la déforestation par rapport à l'exploitation
+      forestière, aux infrastructures ou aux incendies — une nuance essentielle pour orienter les politiques
+      publiques sans stigmatiser un secteur sans preuve.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 04 — PROVINCES ═══ -->
+  <section class="art-section" id="provinces">
+    <div class="section-label">04 · Où se concentre la perte ?</div>
+    <h2 class="section-title">Répartition provinciale de la perte forestière</h2>
+    <p>Le calcul de la perte forestière cumulée (2001-2023) a été réalisé indépendamment pour chacune des
+    provinces du Gabon.</p>
+
+    <table class="data-table">
+      <thead><tr><th>Province</th><th>Perte cumulée (km²)</th></tr></thead>
+      <tbody id="table-provinces">
+        <tr><td colspan="2" style="text-align:center;color:var(--t2)">[Tableau généré depuis perte_par_province.csv]</td></tr>
+      </tbody>
+    </table>
+
+    <div class="figure">
+      <iframe src="fig9_perte_provinces.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 9</strong> — Perte forestière cumulée par province (2001-2023).</div>
+    </div>
+
+    <p>L'interprétation de ces résultats est rédigée exclusivement après consultation du tableau ci-dessus —
+    aucune hypothèse sur les provinces "les plus touchées" n'est avancée avant le calcul effectif.</p>
+  </section>
+
+  <!-- ═══ QUESTION CENTRALE ═══ -->
+  <div class="central-question">
+    <div class="emoji">🌳</div>
+    <h2>Peut-on augmenter fortement la production agricole sans augmenter la pression sur les forêts ?</h2>
+    <p>C'est la question que ce rapport cherche à documenter — pas à trancher par affirmation, mais par
+    croisement spatial des données.</p>
+  </div>
+
+  <!-- ═══ 05 — MATRICE AGRICULTURE × FORÊT ═══ -->
+  <section class="art-section" id="matrice">
+    <div class="section-label">05 · Agriculture × Forêt</div>
+    <h2 class="section-title">Une grille de lecture spatiale du territoire</h2>
+    <p>En croisant l'intensité de l'activité agricole (ESA WorldCover) et la perte de couverture forestière
+    (Hansen) à l'échelle de cellules de 10km, le territoire se classe en quatre profils. Les seuils de
+    classification sont calculés à partir des données elles-mêmes (médiane des cellules concernées), et non
+    fixés arbitrairement.</p>
+
+    <div class="matrix-grid">
+      <div class="matrix-cell gray"><strong>Zone stable</strong>Faible agriculture, faible perte forestière — territoire non concerné par la dynamique étudiée.</div>
+      <div class="matrix-cell green"><strong>🟢 Potentiel agricole</strong>Agriculture présente, sans perte forestière associée — zones déjà ouvertes, à prioriser pour le développement.</div>
+      <div class="matrix-cell red"><strong>🔴 Zone sensible</strong>Perte forestière sans agriculture visible — nécessite une investigation sur la cause réelle (logging, mines, feux).</div>
+      <div class="matrix-cell orange"><strong>🟠 Zone à surveiller</strong>Agriculture et perte forestière conjointes — zone prioritaire de suivi et de dialogue avec les acteurs locaux.</div>
+    </div>
+
+    <div class="figure">
+      <iframe src="fig10_matrice_agriculture_foret.html" loading="lazy"></iframe>
+      <div class="figure-caption"><strong>Fig. 10</strong> (signature DIAM-AI) — Carte des quadrants Agriculture × Forêt, par cellule de 10km.</div>
+    </div>
+  </section>
+
+  <!-- ═══ RECOMMANDATIONS ═══ -->
+  <section class="art-section" id="recommandations">
+    <div class="section-label">06 · Recommandations</div>
+    <h2 class="section-title">Pistes d'action fondées sur les données</h2>
+    <div class="reco-grid">
+      <div class="reco-card">
+        <div class="reco-num">01</div>
+        <h4>Prioriser les zones "potentiel agricole"</h4>
+        <p>Orienter les nouveaux projets agricoles vers les cellules déjà classées en zone ouverte sans perte forestière associée (quadrant vert).</p>
+      </div>
+      <div class="reco-card">
+        <div class="reco-num">02</div>
+        <h4>Investiguer les zones sensibles</h4>
+        <p>Diligenter des vérifications terrain sur les cellules à perte forestière sans activité agricole visible (quadrant rouge), pour identifier la cause réelle.</p>
+      </div>
+      <div class="reco-card">
+        <div class="reco-num">03</div>
+        <h4>Suivi continu par télédétection</h4>
+        <p>Mettre à jour cette analyse annuellement pour suivre l'évolution des quadrants et mesurer l'impact des politiques mises en œuvre.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ LIMITES ═══ -->
+  <section class="art-section" id="limites">
+    <div class="section-label">07 · Limites de l'étude</div>
+    <h2 class="section-title">Ce que cette étude ne permet pas d'affirmer</h2>
+    <ul>
+      <li>Les comparaisons de perte forestière avant/après 2015 doivent être interprétées avec prudence en raison des évolutions méthodologiques du jeu de données Hansen.</li>
+      <li>La résolution des données (10-30m pour WorldCover/Hansen, ~1km pour les facteurs de perte) ne permet pas de statuer sur des parcelles individuelles.</li>
+      <li>Une corrélation géographique entre agriculture et perte forestière n'établit pas une causalité — seule la donnée sur les facteurs dominants (Module F) permet une attribution rigoureuse.</li>
+      <li>Ce rapport constitue une première publication ; les résultats seront affinés dans les prochains numéros de la série DIAM-AI Data Report.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ SOURCES ═══ -->
+  <section class="art-section" id="sources">
+    <div class="section-label">08 · Sources &amp; Reproductibilité</div>
+    <h2 class="section-title">Données ouvertes, code ouvert</h2>
+    <div class="tool-chips">
+      <span class="tool-chip">FAOSTAT</span><span class="tool-chip">World Bank Open Data</span>
+      <span class="tool-chip">ESA WorldCover v200</span><span class="tool-chip">Hansen Global Forest Change</span>
+      <span class="tool-chip">WRI / Google DeepMind — Drivers of Forest Loss</span>
+      <span class="tool-chip">Google Earth Engine</span><span class="tool-chip">Python / Pandas / Plotly</span>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Source</th><th>Lien</th></tr></thead>
+      <tbody>
+        <tr><td>FAOSTAT</td><td><a href="https://www.fao.org/faostat" target="_blank" rel="noopener noreferrer">fao.org/faostat</a></td></tr>
+        <tr><td>World Bank Open Data — Gabon</td><td><a href="https://data.worldbank.org/country/gabon" target="_blank" rel="noopener noreferrer">data.worldbank.org</a></td></tr>
+        <tr><td>ESA WorldCover</td><td><a href="https://esa-worldcover.org" target="_blank" rel="noopener noreferrer">esa-worldcover.org</a></td></tr>
+        <tr><td>Hansen Global Forest Change</td><td><a href="https://glad.earthengine.app/view/global-forest-change" target="_blank" rel="noopener noreferrer">glad.earthengine.app</a></td></tr>
+        <tr><td>Notebook Colab (reproductible)</td><td>DIAM-AI_Donnees_Agricoles_Gabon.ipynb</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="article-footer">
+    <div class="diam-logo">DIAM-AI</div>
+    <p>DIAM-AI Data Report — Une publication DIAM-AI, Data &amp; Intelligence Artificielle au service de l'Afrique.</p>
+    <p style="margin-top:6px">Contact : <a href="mailto:contact@diam-ai.com" style="color:var(--emerald)">contact@diam-ai.com</a></p>
+  </footer>
+
+</div>
+</body>
+</html>

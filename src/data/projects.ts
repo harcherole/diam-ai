@@ -43,4 +43,15 @@ export const projects: Project[] = [
     technologies: ["Python", "NLP"],
     image: "/assets/images/projects/placeholder.jpg",
   },
+  {
+    id: "agriculture-deforestation-gabon",
+    title: "Agriculture & Déforestation au Gabon",
+    description:
+      "Croisement de données FAOSTAT et satellite (ESA WorldCover, Hansen Global Forest Change) pour examiner si le développement agricole peut se faire sans accroître la pression sur la forêt.",
+    domain: "Agriculture & Environnement",
+    categories: ["Agriculture", "Data", "Afrique"],
+    technologies: ["FAOSTAT", "Google Earth Engine", "Plotly", "Python"],
+    image: "/assets/images/projects/gabon-agriculture-deforestation.jpg",
+    link: "https://diam-ai.com/reports/agriculture-deforestation-gabon/",
+  },
 ];
