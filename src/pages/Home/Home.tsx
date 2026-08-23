@@ -12,10 +12,23 @@ import CTASection from "@/components/CTASection/CTASection";
 import Button from "@/components/ui/Button";
 import { activities } from "@/data/activities";
 import { projects } from "@/data/projects";
+import { partners } from "@/data/partners";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
+
+  // Le chiffre "Partenaire(s)" est calculé depuis les données réelles des
+  // partenaires plutôt que codé en dur : il reste toujours exact.
+  const keyFigures = siteConfig.keyFigures.map((figure) =>
+    figure.id === "partners"
+      ? {
+          ...figure,
+          value: partners.length,
+          label: partners.length > 1 ? "Partenaires" : "Partenaire",
+        }
+      : figure
+  );
 
   return (
     <>
@@ -40,7 +53,7 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="grid grid-cols-2 gap-8">
-                {siteConfig.keyFigures.map((figure) => (
+                {keyFigures.map((figure) => (
                   <StatBlock key={figure.id} figure={figure} />
                 ))}
               </div>

@@ -1,6 +1,4 @@
-import type { SiteConfig } from "@/data/siteConfig";
-
-type KeyFigure = SiteConfig["keyFigures"][number];
+import type { KeyFigure } from "@/data/siteConfig";
 
 interface StatBlockProps {
   figure: KeyFigure;

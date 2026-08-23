@@ -3,6 +3,13 @@
  * Toute donnée amenée à changer (coordonnées, liens, chiffres clés) vit ici.
  */
 
+export interface KeyFigure {
+  id: string;
+  label: string;
+  value: number | null;
+  suffix: string;
+}
+
 export const siteConfig = {
   name: "DIAM-AI",
   legalName: "DIAM-AI",
@@ -35,17 +42,21 @@ export const siteConfig = {
   },
 
   /**
-   * Chiffres clés — STRUCTURE UNIQUEMENT.
+   * Chiffres clés.
    * Ne jamais insérer de valeur inventée. Tant qu'un chiffre n'est pas
    * officiellement confirmé, laisser `value: null` : le composant StatBlock
    * affiche alors un état "à venir" plutôt qu'un nombre.
+   *
+   * Le chiffre "partners" reste volontairement à `null` ici : il est
+   * calculé dynamiquement dans Home.tsx à partir de src/data/partners.ts
+   * (partners.length), pour rester toujours exact sans mise à jour manuelle.
    */
   keyFigures: [
-    { id: "learners", label: "Apprenants formés", value: null as number | null, suffix: "+" },
-    { id: "projects", label: "Projets réalisés", value: null as number | null, suffix: "+" },
-    { id: "programs", label: "Programmes de formation", value: null as number | null, suffix: "+" },
-    { id: "partners", label: "Partenaires", value: null as number | null, suffix: "+" },
-  ],
+    { id: "learners", label: "Apprenants formés", value: 500, suffix: "+" },
+    { id: "projects", label: "Projets réalisés", value: 100, suffix: "+" },
+    { id: "programs", label: "Programme de formation en IA", value: 1, suffix: "" },
+    { id: "partners", label: "Partenaire", value: null, suffix: "" },
+  ] as KeyFigure[],
 
   ctaPrimary: "Parlons de votre projet",
   ctaSecondaryHome: "Explorer nos formations",

@@ -97,7 +97,7 @@ export default function Activities() {
             Nos activités
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
-            Quatre axes complémentaires structurent l'action de DIAM-AI, de la
+            Cinq axes complémentaires structurent l'action de DIAM-AI, de la
             formation individuelle jusqu'au développement de solutions IA
             pour les organisations.
           </p>
