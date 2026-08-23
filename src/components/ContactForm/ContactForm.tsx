@@ -1,6 +1,26 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, AlertCircle } from "lucide-react";
+
+/**
+ * Envoi du formulaire via Formspree (https://formspree.io).
+ *
+ * Pourquoi un service tiers plutôt qu'un envoi SMTP direct : ce site est
+ * 100% statique (GitHub Pages) — il n'y a pas de serveur pour exécuter du
+ * code d'envoi d'e-mail, et il ne faut JAMAIS mettre un mot de passe SMTP
+ * dans le code React (il serait visible en clair par n'importe qui dans le
+ * bundle JS livré au navigateur). Formspree reçoit la soumission et la
+ * transfère à l'adresse vérifiée, sans exposer aucun secret côté client.
+ *
+ * Mise en route (5 minutes) :
+ *   1. Créer un compte sur https://formspree.io (offre gratuite : 50
+ *      soumissions/mois, largement suffisant pour démarrer).
+ *   2. Créer un formulaire, y associer et vérifier contact@diam-ai.com.
+ *   3. Copier l'identifiant de formulaire (ex. "abcdwxyz") et remplacer
+ *      la valeur ci-dessous.
+ */
+const FORMSPREE_FORM_ID = "xppanejp"; // ex: "xzzjgqvr"
+const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_FORM_ID}`;
 
 type RequestType =
   | "Formation"
@@ -47,6 +67,8 @@ export default function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -68,14 +90,43 @@ export default function ContactForm() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
-    // TODO: brancher l'envoi réel (API / service email) une fois disponible.
-    console.info("Contact form submission", form);
-    setSubmitted(true);
-    setForm(initialState);
+    setSubmitError(false);
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          Prénom: form.firstName,
+          Nom: form.lastName,
+          Email: form.email,
+          Organisation: form.organization || "—",
+          "Type de demande": form.requestType,
+          Sujet: form.subject,
+          Message: form.message,
+          _replyto: form.email,
+          _subject: `[DIAM-AI · Contact] ${form.requestType} — ${form.subject}`,
+        }),
+      });
+
+      if (!res.ok) throw new Error(`Formspree a répondu ${res.status}`);
+
+      setSubmitted(true);
+      setForm(initialState);
+    } catch (err) {
+      console.error("Échec de l'envoi du formulaire de contact :", err);
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClass = (hasError: boolean) =>
@@ -187,10 +238,24 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-900"
+        disabled={isSubmitting}
+        className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-navy-900 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Envoyer le message
+        {isSubmitting ? "Envoi en cours…" : "Envoyer le message"}
       </button>
+
+      {submitError && (
+        <div className="flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          <AlertCircle size={17} className="mt-0.5 shrink-0" />
+          <span>
+            L'envoi a échoué. Réessayez, ou écrivez-nous directement à{" "}
+            <a href="mailto:contact@diam-ai.com" className="font-semibold underline">
+              contact@diam-ai.com
+            </a>
+            .
+          </span>
+        </div>
+      )}
     </form>
   );
 }

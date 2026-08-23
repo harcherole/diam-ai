@@ -1,9 +1,13 @@
+import { useMemo, useState } from "react";
 import SEO from "@/components/SEO/SEO";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import CTASection from "@/components/CTASection/CTASection";
+import EventCard from "@/components/EventCard/EventCard";
+import EventFilters from "@/components/EventFilters/EventFilters";
 import { activities } from "@/data/activities";
+import { events } from "@/data/events";
 
 interface ActivityDetail {
   objectives: string[];
@@ -56,6 +60,26 @@ const details: Record<string, ActivityDetail> = {
 };
 
 export default function Activities() {
+  const [activeYear, setActiveYear] = useState("Toutes");
+
+  const years = useMemo(() => {
+    const unique = Array.from(new Set(events.map((e) => e.date.slice(0, 4))));
+    return unique.sort((a, b) => Number(b) - Number(a)); // plus récent d'abord
+  }, []);
+
+  const sortedEvents = useMemo(
+    () => [...events].sort((a, b) => b.date.localeCompare(a.date)),
+    []
+  );
+
+  const filteredEvents = useMemo(
+    () =>
+      activeYear === "Toutes"
+        ? sortedEvents
+        : sortedEvents.filter((e) => e.date.startsWith(activeYear)),
+    [sortedEvents, activeYear]
+  );
+
   return (
     <>
       <SEO
@@ -143,6 +167,38 @@ export default function Activities() {
           </section>
         );
       })}
+
+      {/* Nos événements */}
+      <section className="bg-surface-50 py-20 md:py-24" id="evenements">
+        <Container>
+          <Reveal>
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+              — Sur le terrain
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-navy-900">Nos événements</h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-700">
+              Conférences, hackathons, olympiades et formations auxquels DIAM-AI a pris
+              part ou qu'elle a organisés.
+            </p>
+          </Reveal>
+
+          <div className="mt-8">
+            <EventFilters years={years} active={activeYear} onChange={setActiveYear} />
+          </div>
+
+          {filteredEvents.length > 0 ? (
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {filteredEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-16 text-center text-sm text-ink-500">
+              Aucun événement pour cette période.
+            </p>
+          )}
+        </Container>
+      </section>
 
       <CTASection
         title="Une question sur nos activités ?"
