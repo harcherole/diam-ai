@@ -20,6 +20,17 @@ export interface DiamEvent {
  * public/assets/events/, puis ajoute une entrée ci-dessous.
  */
 export const events: DiamEvent[] = [
+ {
+  id: "livre-mlops-azure-2026",
+  title: "Sortie du livre — MLOps avec Microsoft Azure",
+  date: "2026-08-29",
+  organizer: "Georf Miguiama Bamba",
+  location: "Disponible en ligne (Amazon)",
+  description:
+    "Guide pratique pour déployer des modèles de Machine Learning en production sur Microsoft Azure : MLflow, Azure DevOps, Docker et AKS — de la conception du modèle à son déploiement dans le cloud.",
+  image: "/assets/events/livre-mlops-azure-amazon-2026-08-29.jpg",
+  link: "https://www.amazon.fr/MLOps-sur-Azure-DevOps-Kubernetes/dp/B0HF4WGKMV/",
+  },
   {
     id: "olympiade-ia-gabon-2026",
     title: "Olympiade IA Gabon 2026",
