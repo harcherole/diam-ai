@@ -3,9 +3,11 @@ import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
 import SectionTitle from "@/components/SectionTitle/SectionTitle";
 import ValueCard from "@/components/ValueCard/ValueCard";
+import TeamCard from "@/components/TeamCard/TeamCard";
 import Timeline from "@/components/Timeline/Timeline";
 import CTASection from "@/components/CTASection/CTASection";
 import { values } from "@/data/values";
+import { bureau } from "@/data/team";
 import type { TimelineStep } from "@/components/Timeline/Timeline";
 
 /**
@@ -77,6 +79,24 @@ export default function About() {
                 description="Ces quatre dimensions structurent l'ensemble de l'action de DIAM-AI, depuis la montée en compétence individuelle jusqu'au déploiement de solutions pour les organisations."
               />
             </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Bureau */}
+      <section className="py-24">
+        <Container>
+          <SectionTitle
+            kicker="Gouvernance"
+            title="Le Bureau de DIAM-AI"
+            description="Les membres qui portent et animent DIAM-AI au quotidien."
+          />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {bureau.map((member, i) => (
+              <Reveal key={member.id} delay={i * 0.08}>
+                <TeamCard member={member} />
+              </Reveal>
+            ))}
           </div>
         </Container>
       </section>
