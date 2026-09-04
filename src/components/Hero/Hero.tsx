@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
-import NetworkVisual from "./NetworkVisual";
+import LogoOrbitVisual from "./LogoOrbitVisual";
 import { siteConfig } from "@/data/siteConfig";
 
 export default function Hero() {
@@ -61,7 +61,7 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.25 }}
         >
-          <NetworkVisual />
+          <LogoOrbitVisual />
         </motion.div>
       </Container>
     </section>
