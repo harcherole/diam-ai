@@ -4,6 +4,7 @@ import Home from "@/pages/Home/Home";
 import About from "@/pages/About/About";
 import Activities from "@/pages/Activities/Activities";
 import Projects from "@/pages/Projects/Projects";
+import Events from "@/pages/Events/Events";
 import Initiatives from "@/pages/Initiatives/Initiatives";
 import Training from "@/pages/Training/Training";
 import Support from "@/pages/Support/Support";
@@ -19,6 +20,7 @@ export default function AppRouter() {
         <Route path="/a-propos" element={<About />} />
         <Route path="/activites" element={<Activities />} />
         <Route path="/projets" element={<Projects />} />
+        <Route path="/evenements" element={<Events />} />
         <Route path="/initiatives" element={<Initiatives />} />
         <Route path="/formation" element={<Training />} />
         <Route path="/accompagnement" element={<Support />} />
