@@ -5,6 +5,7 @@ interface SEOProps {
   description: string;
   path?: string;
   image?: string;
+  keywords?: string[];
 }
 
 const SITE_NAME = "DIAM-AI";
@@ -18,7 +19,13 @@ const DEFAULT_IMAGE = "/og-image.jpg";
  * Le jour où l'anglais sera ajouté, il suffira de passer `lang` en prop
  * depuis un contexte de langue, sans toucher aux pages qui consomment SEO.
  */
-export default function SEO({ title, description, path = "/", image = DEFAULT_IMAGE }: SEOProps) {
+export default function SEO({
+  title,
+  description,
+  path = "/",
+  image = DEFAULT_IMAGE,
+  keywords,
+}: SEOProps) {
   const lang = "fr";
   const fullTitle = `${title} — ${SITE_NAME}`;
   const url = `${SITE_URL}${path}`;
@@ -27,6 +34,9 @@ export default function SEO({ title, description, path = "/", image = DEFAULT_IM
     <Helmet htmlAttributes={{ lang }}>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {keywords && keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(", ")} />
+      )}
       <link rel="canonical" href={url} />
 
       <meta property="og:type" content="website" />
