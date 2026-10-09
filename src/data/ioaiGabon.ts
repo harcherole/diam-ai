@@ -57,62 +57,49 @@ export interface CalendarItem {
  */
 export const ioaiGabonCalendar: CalendarItem[] = [
   {
-    id: "lancement",
-    period: "Septembre 2026",
-    title: "Lancement officiel de la sélection nationale",
-    description: "Présentation du programme et ouverture de la communication.",
+    id: "communication",
+    period: "13 – 19 octobre 2026",
+    title: "Campagne de communication",
+    description: "Présentation du programme auprès des écoles, partenaires et réseaux sociaux.",
   },
   {
     id: "ouverture-inscriptions",
-    period: "01 octobre 2026",
-    title: "Ouverture des inscriptions",
-  },
-  {
-    id: "cloture-inscriptions",
-    period: "31 octobre 2026",
-    title: "Clôture des inscriptions",
-  },
-  {
-    id: "round1",
-    period: "07 novembre 2026",
-    title: "Round 1 — Qualification nationale",
-  },
-  {
-    id: "resultats-round1",
-    period: "21 novembre 2026",
-    title: "Publication des résultats du Round 1",
-  },
-  {
-    id: "round2",
-    period: "05 décembre 2026",
-    title: "Round 2 — Sélection avancée",
-  },
-  {
-    id: "annonce-training-camp",
-    period: "19 décembre 2026",
-    title: "Annonce des candidats retenus pour le Training Camp",
-  },
-  {
-    id: "training-camp",
-    period: "Janvier – Mars 2027",
-    title: "Training Camp",
-    description: "Préparation scientifique et technique intensive.",
-  },
-  {
-    id: "final-selection",
-    period: "20 – 21 mars 2027",
-    title: "Final Selection",
-  },
-  {
-    id: "annonce-equipe",
-    period: "25 mars 2027",
-    title: "Annonce de l'équipe nationale du Gabon 🇬🇦",
+    period: "20 octobre 2026",
+    title: "Lancement officiel des inscriptions",
     highlight: true,
   },
   {
-    id: "preparation-finale",
-    period: "Avril – Juin 2027",
-    title: "Préparation finale de l'équipe nationale",
+    id: "communication-intensive",
+    period: "Octobre – Novembre 2026",
+    title: "Communication intensive et partenariats",
+  },
+  {
+    id: "round1",
+    period: "20 – 22 novembre 2026",
+    title: "Round 1 — Qualification nationale",
+    highlight: true,
+  },
+  {
+    id: "resultats-round1",
+    period: "Fin novembre / début décembre 2026",
+    title: "Publication des résultats du Round 1",
+  },
+  {
+    id: "preparation-round2",
+    period: "Décembre 2026",
+    title: "Préparation du Round 2",
+  },
+  {
+    id: "formation",
+    period: "Janvier – Mars 2027",
+    title: "Formation (Training Camp)",
+    description: "Préparation scientifique et technique intensive des candidats retenus.",
+  },
+  {
+    id: "selection-finale",
+    period: "Mars – Avril 2027",
+    title: "Sélection finale",
+    highlight: true,
   },
   {
     id: "ioai-2027",
@@ -339,7 +326,7 @@ export const ioaiGabonFaq: FaqItem[] = [
   {
     id: "debut-inscriptions",
     question: "Quand les inscriptions commenceront-elles ?",
-    answer: "Ouverture prévisionnelle le 01 octobre 2026 — voir le calendrier prévisionnel ci-dessus.",
+    answer: "Les inscriptions ouvrent officiellement le 20 octobre 2026 — voir le calendrier ci-dessus.",
   },
   {
     id: "constitution-equipe",

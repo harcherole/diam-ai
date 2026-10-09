@@ -11,6 +11,7 @@ import Support from "@/pages/Support/Support";
 import Partners from "@/pages/Partners/Partners";
 import Contact from "@/pages/Contact/Contact";
 import IoaiGabon from "@/pages/IoaiGabon/IoaiGabon";
+import IoaiInscription from "@/pages/IoaiInscription/IoaiInscription";
 import NotFound from "@/pages/NotFound/NotFound";
 
 export default function AppRouter() {
@@ -28,6 +29,7 @@ export default function AppRouter() {
         <Route path="/partenaires" element={<Partners />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/ioai-gabon" element={<IoaiGabon />} />
+        <Route path="/ioai-gabon/inscription" element={<IoaiInscription />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

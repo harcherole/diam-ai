@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Mail, Linkedin, ExternalLink, FileDown } from "lucide-react";
 import SEO from "@/components/SEO/SEO";
 import Container from "@/components/ui/Container";
@@ -207,12 +208,12 @@ export default function IoaiGabon() {
 
           <Reveal delay={0.15}>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <a
-                href="#contact"
+              <Link
+                to="/ioai-gabon/inscription"
                 className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-navy-900"
               >
-                Être informé de l'ouverture des inscriptions
-              </a>
+                S'inscrire à la sélection nationale
+              </Link>
               <a href="#calendrier" className="text-sm font-semibold text-accent">
                 Voir le calendrier prévisionnel →
               </a>
