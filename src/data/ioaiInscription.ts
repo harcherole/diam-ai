@@ -38,7 +38,7 @@
  * ContactForm.tsx) : c'est l'adresse publique du formulaire, pas une clé
  * d'accès. Il peut donc être commis dans le dépôt sans risque.
  */
-export const INSCRIPTION_FORMSPREE_ID = "mvkzrgzg"; // ex: "abcdwxyz"
+export const INSCRIPTION_FORMSPREE_ID: string = "mvkzrgzg";
 export const INSCRIPTION_FORMSPREE_ENDPOINT = `https://formspree.io/f/${INSCRIPTION_FORMSPREE_ID}`;
 
 export const ioaiInscriptionConfig = {
