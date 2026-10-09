@@ -22,7 +22,7 @@ Pages déjà en place.
 Ouvrir `src/data/ioaiInscription.ts` et remplacer :
 
 ```ts
-export const INSCRIPTION_FORMSPREE_ID = "VOTRE_ID_FORMSPREE";
+export const INSCRIPTION_FORMSPREE_ID = "mvkzrgzg";
 ```
 
 par le véritable identifiant copié à l'étape 1, par exemple :

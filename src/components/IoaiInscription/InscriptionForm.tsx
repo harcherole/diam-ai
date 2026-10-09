@@ -184,7 +184,7 @@ export default function InscriptionForm() {
 
     if (!validate()) return;
 
-    if (INSCRIPTION_FORMSPREE_ID === "https://formspree.io/f/mvkzrgzg") {
+    if (INSCRIPTION_FORMSPREE_ID === "mvkzrgzg") {
       setSubmitError(
         "L'envoi des inscriptions n'est pas encore configuré sur ce site (identifiant Formspree manquant). Merci de réessayer plus tard ou d'écrire à contact@diam-ai.com."
       );
