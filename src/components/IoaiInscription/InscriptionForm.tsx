@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
-  INSCRIPTION_FORMSPREE_ENDPOINT,
-  INSCRIPTION_FORMSPREE_ID,
+  IOAI_INSCRIPTION_ENDPOINT,
   genres,
   langagesOutils,
   niveauxScolaires,
@@ -103,7 +102,12 @@ export default function InscriptionForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [confirmation, setConfirmation] = useState(false);
+  const [confirmation, setConfirmation] = useState<{ idCandidat: string } | null>(null);
+
+  // Horodatage du chargement du formulaire : un envoi anormalement rapide
+  // (quelques centaines de ms) est un signal fort de bot plutôt qu'un
+  // candidat qui a réellement lu puis rempli le formulaire.
+  const chargeLe = useRef(Date.now());
 
   const age = ageAnsDepuis(form.dateNaissance);
   const responsableRequis = age !== null && age < 18;
@@ -172,21 +176,11 @@ export default function InscriptionForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return; // garde-fou supplémentaire contre la double soumission
-
-    // Honeypot : un champ invisible qu'un humain ne remplit jamais. S'il est
-    // rempli, on affiche un succès silencieux sans rien envoyer — ni au
-    // candidat ni au bot l'intérêt de savoir qu'il a été démasqué.
-    if (form.honeypot) {
-      setConfirmation(true);
-      setForm(initialState);
-      return;
-    }
-
     if (!validate()) return;
 
-    if (INSCRIPTION_FORMSPREE_ID === "VOTRE_ID_FORMSPREE") {
+    if (IOAI_INSCRIPTION_ENDPOINT === "VOTRE_URL_APPS_SCRIPT") {
       setSubmitError(
-        "L'envoi des inscriptions n'est pas encore configuré sur ce site (identifiant Formspree manquant). Merci de réessayer plus tard ou d'écrire à contact@diam-ai.com."
+        "L'envoi des inscriptions n'est pas encore configuré sur ce site (endpoint manquant). Merci de réessayer plus tard ou d'écrire à contact@diam-ai.com."
       );
       return;
     }
@@ -194,42 +188,55 @@ export default function InscriptionForm() {
     setSubmitError(null);
     setIsSubmitting(true);
 
+    const payload = {
+      nom: form.nom.trim(),
+      prenom: form.prenom.trim(),
+      dateNaissance: form.dateNaissance,
+      email: form.email.trim(),
+      telephone: form.telephone.trim(),
+      sexe: form.sexe,
+      etablissement: form.etablissement.trim(),
+      classe: form.classe,
+      province: form.province,
+      ville: form.ville.trim(),
+      filiere: form.filiere.trim(),
+      aDejaProgramme: form.aDejaProgramme,
+      langages: form.langages.join(", "),
+      projetIA: form.projetIA,
+      descriptionProjet: form.descriptionProjet.trim(),
+      motivation: form.motivation.trim(),
+      responsableNom: form.responsableNom.trim(),
+      responsableEmail: form.responsableEmail.trim(),
+      responsableTelephone: form.responsableTelephone.trim(),
+      consentementExactitude: form.consentementExactitude,
+      consentementTraitement: form.consentementTraitement,
+      newsletter: form.newsletter,
+      // Champs anti-spam lus par le Google Apps Script, jamais affichés :
+      honeypot: form.honeypot,
+      elapsedMs: Date.now() - chargeLe.current,
+    };
+
     try {
-      const res = await fetch(INSCRIPTION_FORMSPREE_ENDPOINT, {
+      // Content-Type "text/plain" (et non "application/json") volontairement :
+      // Google Apps Script Web App ne répond pas à la requête OPTIONS de
+      // pré-vérification CORS envoyée par le navigateur pour un JSON classique,
+      // ce qui fait systématiquement échouer l'appel. En envoyant le JSON comme
+      // texte brut, le navigateur n'émet pas de pré-vérification, et
+      // doPost(e) lit le JSON depuis e.postData.contents côté script. Voir
+      // google-apps-script/README.md pour le détail.
+      const res = await fetch(IOAI_INSCRIPTION_ENDPOINT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          Nom: form.nom.trim(),
-          Prénom: form.prenom.trim(),
-          "Date de naissance": form.dateNaissance,
-          Email: form.email.trim(),
-          Téléphone: form.telephone.trim() || "—",
-          Sexe: form.sexe || "—",
-          Établissement: form.etablissement.trim(),
-          "Classe / niveau": form.classe,
-          Filière: form.filiere.trim() || "—",
-          Province: form.province,
-          Ville: form.ville.trim(),
-          "A déjà programmé": form.aDejaProgramme,
-          "Langages / outils": form.langages.join(", ") || "—",
-          "Projet IA": form.projetIA,
-          "Description du projet": form.descriptionProjet.trim() || "—",
-          Motivation: form.motivation.trim(),
-          "Responsable légal - Nom": form.responsableNom.trim() || "—",
-          "Responsable légal - Email": form.responsableEmail.trim() || "—",
-          "Responsable légal - Téléphone": form.responsableTelephone.trim() || "—",
-          Newsletter: form.newsletter ? "Oui" : "Non",
-          _replyto: form.email.trim(),
-          _subject: `[IOAI Gabon 2027] Nouvelle inscription — ${form.prenom} ${form.nom}`,
-        }),
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error(`Formspree a répondu ${res.status}`);
+      const data = await res.json();
 
-      setConfirmation(true);
+      if (!res.ok || data.status !== "ok") {
+        throw new Error(data.message || `Le serveur a répondu ${res.status}`);
+      }
+
+      setConfirmation({ idCandidat: data.idCandidat ?? "—" });
       setForm(initialState);
     } catch (err) {
       console.error("Échec de l'envoi de l'inscription IOAI Gabon :", err);
@@ -260,6 +267,9 @@ export default function InscriptionForm() {
         <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-700">
           Merci pour ton inscription à la sélection nationale IOAI Gabon 2027. Ton
           inscription a bien été enregistrée.
+        </p>
+        <p className="mt-4 rounded-full bg-surface-50 px-5 py-2 font-mono text-sm font-semibold text-navy-900 ring-1 ring-navy-900/8">
+          N° candidat : {confirmation.idCandidat}
         </p>
         <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-700">
           Le Round 1 se déroulera du <strong>20 au 22 novembre 2026</strong>. Les

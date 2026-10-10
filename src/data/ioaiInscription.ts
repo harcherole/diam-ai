@@ -9,37 +9,36 @@
  */
 
 /**
- * Envoi via Formspree (https://formspree.io) — exactement le même principe
- * que ContactForm.tsx (voir ce fichier pour le détail). Choisi ici à la
- * place d'un backend Google Apps Script pour une raison simple : ce site
- * est 100% statique et déployé uniquement via GitHub Pages, donc tout ce
- * qui nécessite un déploiement séparé (créer un script, le publier comme
- * Web App, gérer ses versions) ajoute de la complexité évitable. Formspree
- * ne demande aucun déploiement : une fois le formulaire créé sur leur site,
- * il reçoit les soumissions, les envoie par email et les garde consultables
- * (et exportables en CSV) dans leur tableau de bord — sans aucune autre
- * étape de mise en ligne.
+ * Envoi vers un Google Apps Script Web App qui écrit chaque inscription
+ * dans une Google Sheet (voir google-apps-script/Code.gs et
+ * google-apps-script/README.md pour le script complet et la procédure de
+ * déploiement, à faire une seule fois).
  *
- * Mise en route (5 minutes, à faire une seule fois) :
- *   1. Créer un compte sur https://formspree.io (offre gratuite : 50
- *      soumissions/mois — largement suffisant pour démarrer ; passer à
- *      l'offre payante seulement si le volume de candidatures le justifie).
- *   2. Créer un NOUVEAU formulaire dédié (séparé de celui de ContactForm,
- *      pour ne pas mélanger les candidatures avec les messages de contact),
- *      y associer et vérifier contact@diam-ai.com.
- *   3. Copier l'identifiant de formulaire affiché (ex. "abcdwxyz") et
- *      remplacer la valeur ci-dessous.
- *   4. Dans le tableau de bord Formspree, activer "Email Notifications"
- *      pour recevoir chaque candidature par email, et utiliser le bouton
- *      d'export CSV quand besoin de récupérer toutes les réponses d'un
- *      coup (ex. pour les ouvrir dans Excel / Google Sheets).
+ * Choisi plutôt que Formspree malgré sa simplicité : la version gratuite de
+ * Formspree est plafonnée à 50 soumissions/mois et n'exporte pas en CSV —
+ * insuffisant pour les 300-400 inscriptions attendues. Un Google Apps
+ * Script Web App, lui, est gratuit et sans limite de volume réaliste pour
+ * ce cas d'usage, et les données arrivent directement dans un vrai tableau
+ * (Google Sheets), consultable et exportable à tout moment sans rien payer.
+ * La contrepartie est une configuration à faire une seule fois (10-15 min,
+ * voir google-apps-script/README.md) — jamais à refaire ensuite, y compris
+ * à chaque nouveau déploiement du site.
  *
- * Cet identifiant n'est pas un secret (il est déjà visible en clair dans
- * ContactForm.tsx) : c'est l'adresse publique du formulaire, pas une clé
- * d'accès. Il peut donc être commis dans le dépôt sans risque.
+ * Annotation ":string" volontaire (et nécessaire) : sans elle, TypeScript
+ * fige ce const comme le type littéral de la chaîne assignée plutôt que
+ * "string", et la comparaison dans InscriptionForm.tsx (qui vérifie si la
+ * valeur par défaut a bien été remplacée) est alors jugée "toujours
+ * fausse" au typage — erreur TS2367, qui casse `tsc -b` et donc tout le
+ * build.
+ *
+ * Cette URL n'est pas un secret : c'est l'adresse publique du formulaire
+ * (comme l'identifiant Formspree de ContactForm.tsx), pas une clé d'accès.
+ * Elle peut donc être commise dans le dépôt sans risque. Le token EduSpace
+ * et toute autre information sensible, eux, ne doivent JAMAIS apparaître
+ * ici ni dans le script Apps Script lui-même.
  */
-export const INSCRIPTION_FORMSPREE_ID: string = "mvkzrgzg";
-export const INSCRIPTION_FORMSPREE_ENDPOINT = `https://formspree.io/f/${INSCRIPTION_FORMSPREE_ID}`;
+export const IOAI_INSCRIPTION_ENDPOINT: string =
+  "https://script.google.com/macros/s/AKfycbxu25TZtjB6PHrwvwkKA1MFT-co-hx8flCB7nBzJOYJ4pahcDPYZy5sFaiZdjGdegOW/exec"; // ex: "https://script.google.com/macros/s/AKfyc.../exec"
 
 export const ioaiInscriptionConfig = {
   edition: "2027",
