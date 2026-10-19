@@ -10,7 +10,7 @@ export default function Hero() {
       <div className="pattern-subtle absolute inset-0 opacity-[0.08]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,_rgba(47,111,237,0.18)_0%,_transparent_45%)]" />
 
-      <Container className="relative grid items-center gap-14 py-24 md:py-32 lg:grid-cols-2 lg:gap-10">
+      <Container className="relative grid items-center gap-14 py-24 md:py-32 lg:grid-cols-[1.25fr_1fr] lg:gap-10">
         <div>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -45,19 +45,18 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-10 flex flex-wrap gap-4"
+            className="mt-10 flex flex-wrap gap-3"
           >
-            <Button to="/a-propos" variant="primary" withArrow>
+            <Button to="/a-propos" variant="primary" withArrow className="!px-5 !py-2.5">
               Découvrir DIAM-AI
             </Button>
-            <Button to="/formation" variant="ghost">
+            <Button to="/formation" variant="ghost" className="!px-5 !py-2.5">
               {siteConfig.ctaSecondaryHome}
             </Button>
             <Button
               to="/ioai-gabon"
               variant="ghost"
-              withArrow
-              className="!border-[#22c55e] !bg-[#16a34a] !text-white hover:!bg-[#15803d]"
+              className="!border-[#22c55e] !bg-[#16a34a] !px-5 !py-2.5 !text-white hover:!bg-[#15803d]"
             >
               IOAI Gabon 2027
             </Button>
