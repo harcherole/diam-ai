@@ -53,6 +53,14 @@ export default function Hero() {
             <Button to="/formation" variant="ghost">
               {siteConfig.ctaSecondaryHome}
             </Button>
+            <Button
+              to="/ioai-gabon"
+              variant="ghost"
+              withArrow
+              className="!border-[#22c55e] !bg-[#16a34a] !text-white hover:!bg-[#15803d]"
+            >
+              IOAI Gabon 2027
+            </Button>
           </motion.div>
         </div>
 
